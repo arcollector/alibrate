@@ -14,9 +14,11 @@ import {
 import * as Style from '../stylesheet';
 
 import Login from '../screens/login';
+import Home from '../screens/home';
 
 type TScreens = (
-  'Alibrate.Login'
+  'Alibrate.Login' |
+  'Alibrate.Home'
 );
 
 export type navigatorType = Navigation;
@@ -67,13 +69,19 @@ export default class Navigator {
     });
   }
 
-  static start(
-    initialScreen: TScreens
-  ): void
-  {
+  static init(store: *): void {
+    Navigator.store = store;
+
+    Navigator.register([
+      [ 'Alibrate.Login', () => Login ],
+      [ 'Alibrate.Home', () => Home ],
+    ]);
+  }
+
+  static start(screen: TScreens): void {
     Navigation.startSingleScreenApp({
       screen: {
-        screen: initialScreen,
+        screen,
         navigatorStyle: {
           ...Navigator.navigatorStyle,
         },
@@ -84,18 +92,6 @@ export default class Navigator {
         orientation: 'portrait',
       },
     });
-  }
-
-  static init(store: *): void {
-    Navigator.store = store;
-
-    Navigator.register([
-      [ 'Alibrate.Login', () => Login ],
-    ]);
-
-    Navigator.start(
-      'Alibrate.Login'
-    );
   }
 
   static toggleDrawer() : void {
@@ -155,6 +151,21 @@ export default class Navigator {
 
   static popToRootWithDelay(delay: number = 500): void {
     setTimeout(() => Navigator.popToRoot(), delay);
+  }
+
+  static resetTo(screen: TScreens, passProps?: Object): void {
+    if(Navigator.navigator === null) {
+      return;
+    }
+    Navigator.count = 0;
+    Navigator.navigator.resetTo({
+      screen,
+      animationType: 'slide-up',
+      navigatorStyle: { ...Navigator.navigatorStyle },
+      overrideBackPress: false,
+      passProps,
+    });
+    Navigator.onPop && Navigator.onPop();
   }
 
 }
