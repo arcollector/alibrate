@@ -75,6 +75,7 @@ export default class Form extends PureComponent<Props, State> {
   </Text>
   <FormInput
     ref={(elem) => this.email = elem}
+    keyboardType="email-address"
     placeholder="Ej:flor@mail.com"
     returnKeyType="next"
     onChange={(value: string) => this.onChangeEmail(value)}
