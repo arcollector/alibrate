@@ -2,6 +2,7 @@
 
 export const fontSize = 12;
 export const fontSizeBig = 15;
+export const fontSizeHuge = 18;
 
 export const whiteColor = '#fff';
 export const blueColor = '#0057a8';

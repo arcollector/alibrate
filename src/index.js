@@ -6,3 +6,4 @@ import createStore from './store';
 
 const store = createStore();
 Navigator.init(store);
+Navigator.start('Alibrate.Login');

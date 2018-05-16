@@ -28,7 +28,7 @@ export default class Login implements ILogin {
   async login(username: string, password: string): Promise<TLoginResponse> {
     const { helper } = this;
     const url = 'https://api.alibrate.com/v1/auth/local';
-    const payload = helper.createPayload({
+    const payload = helper.createPayload('POST', {
       username,
       password,
     });

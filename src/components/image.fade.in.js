@@ -47,7 +47,7 @@ export default class ImageFaceIn extends PureComponent<Props, State> {
     return (
 <Animated.Image
   onLoadEnd={() => this.onLoadEnd()}
-  source={source}
+  source={typeof source === 'string' ? { uri: source } : source}
   style={[
     style,
     { opacity },

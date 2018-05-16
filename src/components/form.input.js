@@ -14,8 +14,11 @@ import * as Style from '../stylesheet';
 
 type Props = {
   placeholder: string,
+  keyboardType: 'default' | 'numeric' | 'email-address' | 'phone-pad',
   returnKeyType: 'next' | 'done',
   secureTextEntry: bool,
+  autoCapitalize: 'none' | 'sentences' | 'words' | 'characters',
+  autoCorrect: bool,
   onChange: (text: string) => any,
   onSubmit: () => any,
 };
@@ -28,7 +31,10 @@ type State = {
 export default class FormInput extends PureComponent<Props, State> {
 
   static defaultProps = {
+    keyboardType: 'default',
     secureTextEntry: false,
+    autoCapitalize: 'none',
+    autoCorrect: false,
   };
 
   textInput: TextInput | null = null;
@@ -65,9 +71,12 @@ export default class FormInput extends PureComponent<Props, State> {
 
   render() {
     const {
+      keyboardType,
       placeholder,
       returnKeyType,
       secureTextEntry,
+      autoCapitalize,
+      autoCorrect,
     } = this.props;
     const {
       value,
@@ -77,6 +86,7 @@ export default class FormInput extends PureComponent<Props, State> {
 <View>
   <TextInput
     ref={(elem) => this.textInput = elem}
+    keyboardType={keyboardType}
     placeholder={placeholder}
     placeholderTextColor={Style.grayColor}
     underlineColorAndroid="transparent"
@@ -85,6 +95,8 @@ export default class FormInput extends PureComponent<Props, State> {
     returnKeyType={returnKeyType}
     secureTextEntry={isSecureTextEntry}
     onSubmitEditing={() => this.onSubmitEditing()}
+    autoCapitalize={autoCapitalize}
+    autoCorrect={autoCorrect}
     value={value}
   />
 
