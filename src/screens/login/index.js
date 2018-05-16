@@ -7,6 +7,9 @@ import {
   Alert,
 } from 'react-native';
 
+import Navigator from '../../navigator';
+import { bindComponentToNavigator } from '../../navigator/helpers';
+
 import {
   login,
   loginTryAgain,
@@ -81,6 +84,7 @@ export class Index extends PureComponent<Props, State> {
   componentWillReceiveProps(props: Props) {
     if(props.loginGood > this.props.loginGood) {
       this.hidePreloader();
+      Navigator.resetTo('Alibrate.Home');
     }
     if(props.loginBad > this.props.loginBad) {
       this.hidePreloader();
@@ -89,7 +93,7 @@ export class Index extends PureComponent<Props, State> {
     if(props.loginFailure > this.props.loginFailure) {
       this.setState({
         error: true,
-      }); 
+      });
     }
   }
 
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
 
 import { connect } from 'react-redux';
 
-export default connect(
+export const connectedComponent = connect(
   ({
     login: {
       loginStart,
@@ -163,3 +167,5 @@ export default connect(
     loginTryAgain,
   }
 )(Index);
+
+export default bindComponentToNavigator(connectedComponent);

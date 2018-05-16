@@ -27,11 +27,12 @@ import {
 } from '../actions/login';
 
 import { type TDependencies } from '../../dependencies';
+import { type TLoginResponse } from '../../dependencies/login';
 
 export const login$ = (
   action$: *,
   state: *,
-  { Login, now }: TDependencies,
+  { Helper, Login, now }: TDependencies,
 ) => {
   return action$
     .ofType(login.toString())
@@ -41,7 +42,12 @@ export const login$ = (
     }) => merge(
       of(loginStart(now())),
       fromPromise(Login.login(email, pass))
-        .switchMap((response) =>
+        .do((response: TLoginResponse) =>
+          response !== null &&
+          response.success &&
+          Helper.setAccessToken(response.data)
+        )
+        .switchMap((response: TLoginResponse) =>
           response === null ? _throw() :
           response.success ? of(loginGood({
             accessToken: response.data,
