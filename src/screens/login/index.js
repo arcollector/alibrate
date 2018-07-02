@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
+  Dimensions,
 } from 'react-native';
 
 import Navigator from '../../navigator';
@@ -139,6 +140,7 @@ export class Index extends PureComponent<Props, State> {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+    minHeight: Dimensions.get('window').height,
   },
 });
 
